@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Monitor registrazione</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://sdk-cdn.mypurecloud.com/javascript/264.0.0/purecloud-platform-client-v2.min.js"></script>
+  <script src="https://sdk-cdn.mypurecloud.com/client-apps/2.7.0/purecloud-client-app-sdk.js"></script>
+  <script src="config.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Registrazione chiamata</h1>
+    <span id="connection" class="pill pill-muted">Non connesso</span>
+  </header>
+
+  <section id="banner" class="banner banner-muted">
+    <div id="banner-title">In attesa di autenticazione...</div>
+    <div id="banner-detail"></div>
+  </section>
+
+  <button id="login" class="hidden">Accedi a Genesys Cloud</button>
+
+  <section>
+    <h2>Chiamate monitorate</h2>
+    <ul id="calls"><li class="empty">Nessuna chiamata attiva</li></ul>
+  </section>
+
+  <section>
+    <h2>Eventi</h2>
+    <ol id="log"></ol>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>

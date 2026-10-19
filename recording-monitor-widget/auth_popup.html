@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex" />
+  <title>Autenticazione Genesys Cloud</title>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f4f4f4; }
+    #status { padding: 24px 32px; border: 3px solid #003366; border-radius: 10px; color: #003366; font-weight: bold; text-align: center; }
+    #status.error { border-color: #c80139; color: #c80139; }
+  </style>
+</head>
+<body>
+  <div id="status">Autenticazione in corso...</div>
+  <script>
+    'use strict';
+    const statusEl = document.getElementById('status');
+    const authMessage = {
+      name: 'gc_auth_popup',
+      type: 'message',
+      hash: window.location.hash || '',
+      search: window.location.search || '',
+    };
+
+    if (!window.opener) {
+      statusEl.classList.add('error');
+      statusEl.textContent = 'Errore: questa pagina deve essere aperta come popup.';
+    } else {
+      // The widget is served from the same origin as this page.
+      window.opener.postMessage(authMessage, window.location.origin);
+      statusEl.textContent = 'Autenticazione completata. Puoi chiudere questa finestra.';
+      setTimeout(() => window.close(), 1000);
+    }
+  </script>
+</body>
+</html>
