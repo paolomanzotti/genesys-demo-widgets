@@ -5,7 +5,15 @@ const PERSIST_PREFIX = 'recmon';
 const params = new URLSearchParams(window.location.search);
 const currentConversationId = params.get('conversationId') || null;
 
-const platform = window.platformClient;
+window.addEventListener('error', (event) => {
+  const banner = document.getElementById('banner');
+  banner.className = 'banner banner-error';
+  document.getElementById('banner-title').textContent = 'Errore nel widget';
+  document.getElementById('banner-detail').textContent = event.message;
+});
+
+// The browser build of the Platform SDK exposes itself through its bundled require(), not a window global.
+const platform = window.platformClient || window.require('platformClient');
 const apiClient = platform.ApiClient.instance;
 const usersApi = new platform.UsersApi();
 const conversationsApi = new platform.ConversationsApi();
