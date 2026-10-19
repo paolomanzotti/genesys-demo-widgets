@@ -123,6 +123,16 @@ function isMonitored(conversation) {
   });
 }
 
+// Server time is only trusted for calls already in progress when the widget opened;
+// for fresh calls local time is used so PC clock drift cannot shorten the grace period.
+const MID_CALL_THRESHOLD_MS = 30000;
+
+function connectedAtOf(agent) {
+  const now = Date.now();
+  const serverConnectedAt = agent.connectedTime ? Date.parse(agent.connectedTime) : NaN;
+  return now - serverConnectedAt > MID_CALL_THRESHOLD_MS ? serverConnectedAt : now;
+}
+
 function recordingStateOf(conversation, agent) {
   return String(conversation.recordingState || agent?.recordingState || 'none').toLowerCase();
 }
@@ -142,7 +152,7 @@ function handleConversation(conversation) {
   if (!call) {
     call = {
       id: conversation.id,
-      connectedAt: agent.connectedTime ? Date.parse(agent.connectedTime) : Date.now(),
+      connectedAt: connectedAtOf(agent),
       wasActive: false,
       status: 'starting',
       alertKind: null,

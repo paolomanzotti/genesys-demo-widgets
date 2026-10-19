@@ -7,7 +7,7 @@ window.RECMON_CONFIG = {
   defaultEnvironment: 'mypurecloud.ie',
 
   // Seconds to wait after the agent connects before a call without active recording is flagged.
-  recordingStartGraceSeconds: 8,
+  recordingStartGraceSeconds: 1,
 
   // Only calls routed through these queues are monitored. Empty = every call of the agent.
   monitoredQueueIds: [],
