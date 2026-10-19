@@ -133,8 +133,10 @@ function connectedAtOf(agent) {
   return now - serverConnectedAt > MID_CALL_THRESHOLD_MS ? serverConnectedAt : now;
 }
 
+// The IVR recording spans the whole conversation, so the conversation-level state can stay
+// "active" even when the agent leg is not recorded: the agent participant state takes precedence.
 function recordingStateOf(conversation, agent) {
-  return String(conversation.recordingState || agent?.recordingState || 'none').toLowerCase();
+  return String(agent?.recordingState || conversation.recordingState || 'none').toLowerCase();
 }
 
 function handleConversation(conversation) {
@@ -167,7 +169,7 @@ function handleConversation(conversation) {
   call.recordingState = recordingStateOf(conversation, agent);
   call.securePause = Boolean(conversation.securePause || agent.securePause);
   if (previousState !== call.recordingState) {
-    log(`Chiamata ${shortId(call.id)}: recordingState=${call.recordingState}${call.securePause ? ' (secure pause)' : ''}`);
+    log(`Chiamata ${shortId(call.id)}: agente=${agent.recordingState ?? '-'} conversazione=${conversation.recordingState ?? '-'}${call.securePause ? ' (secure pause)' : ''}`);
   }
 
   evaluate(call);
